@@ -1,20 +1,21 @@
 import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { SignupType } from '../types'
+import { UserService } from '../services'
 
 class User {
-  constructor() {}
+  constructor(private userService = new UserService()) {}
 
   get = (_req: Request, res: Response) => {
     res.status(StatusCodes.OK).json({ message: 'get' })
   }
 
-  signup = (req: Request, res: Response) => {
+  signup = async (req: Request, res: Response) => {
     const { email, password }: SignupType = req.body
 
-    console.log(email, password)
+    const user = await this.userService.create(email, password)
 
-    res.status(StatusCodes.OK).json({ message: 'signup' })
+    res.status(StatusCodes.OK).json(user)
   }
 
   signin = (_req: Request, res: Response) => {
