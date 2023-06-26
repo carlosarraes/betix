@@ -2,16 +2,28 @@ import mongoose from 'mongoose'
 import type { UserAttrs, UserDoc, UserModel } from '../types'
 import { Password } from '../utils/password'
 
-const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: [true, 'Email is required!'],
+const userSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: [true, 'Email is required!'],
+    },
+    password: {
+      type: String,
+      required: [true, 'Password is required!'],
+    },
   },
-  password: {
-    type: String,
-    required: [true, 'Password is required!'],
+  {
+    toJSON: {
+      transform(_doc, ret) {
+        ret.id = ret._id
+        delete ret._id
+        delete ret.password
+        delete ret.__v
+      },
+    },
   },
-})
+)
 
 userSchema.pre('save', async function (done) {
   if (this.isModified('password')) {

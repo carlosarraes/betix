@@ -13,6 +13,14 @@ class UserService {
 
     return user
   }
+
+  find = async (email: string) => {
+    const foundUser = await User.findOne({ email })
+
+    if (!foundUser) throw new BadRequest('Invalid credentials')
+
+    return foundUser
+  }
 }
 
 export default UserService
