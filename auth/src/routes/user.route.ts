@@ -1,14 +1,14 @@
 import express from 'express'
 import { User } from '../controllers'
-import { validateSignupSchema } from '../middleware'
+import { currentUser, requireAuth, validateBody } from '../middleware'
 
 const router = express.Router()
 
 const user = new User()
 
-router.get('/current', user.get)
-router.post('/signup', validateSignupSchema, user.signup)
-router.post('/signin', user.signin)
+router.get('/current', currentUser, requireAuth, user.get)
+router.post('/signup', validateBody, user.signup)
+router.post('/signin', validateBody, user.signin)
 router.post('/signout', user.signout)
 
 export default router
