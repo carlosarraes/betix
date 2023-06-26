@@ -1,2 +1,2 @@
-export { default as validateSignupSchema } from './signupSchema.middleware'
+export { default as validateBody } from './bodySchema.middleware'
 export { default as errorHandler } from './errorHandler.middleware'

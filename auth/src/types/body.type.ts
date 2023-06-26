@@ -4,9 +4,9 @@ const passwordSchema = z
   .string()
   .refine((data) => data.length >= 8, { message: 'Password must be at least 8 characters long' })
 
-export const SignupSchema = z.object({
+export const BodySchema = z.object({
   email: z.string().email({ message: 'Invalid email address' }),
   password: passwordSchema,
 })
 
-export type SignupType = z.infer<typeof SignupSchema>
+export type BodyType = z.infer<typeof BodySchema>

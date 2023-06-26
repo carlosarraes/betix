@@ -13,3 +13,16 @@ export class BadRequest extends CustomError {
     field: 'database',
   })
 }
+
+export class NotAuthorized extends CustomError {
+  statusCode = StatusCodes.UNAUTHORIZED
+
+  constructor(message: string) {
+    super(message)
+  }
+
+  serializeErrors = () => ({
+    message: this.message,
+    field: 'auth',
+  })
+}
