@@ -27,6 +27,19 @@ export class NotAuthorized extends CustomError {
   });
 }
 
+export class NotFound extends CustomError {
+  statusCode = StatusCodes.NOT_FOUND;
+
+  constructor(message: string) {
+    super(message);
+  }
+
+  serializeErrors = () => ({
+    message: this.message,
+    field: "database",
+  });
+}
+
 export class DatabaseConnError extends CustomError {
   statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
 
