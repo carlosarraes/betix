@@ -26,6 +26,7 @@ export const errorHandler = (
       .json({ message: err.message, field: "general" });
   }
 
+  console.error(err);
   return res
     .status(StatusCodes.INTERNAL_SERVER_ERROR)
     .json({ message: "Something went wrong", field: "unknown" });
