@@ -1,5 +1,5 @@
+import { BadRequest } from '@betix/common'
 import { User } from '../models'
-import { BadRequest } from '../types'
 
 class UserService {
   create = async (email: string, password: string) => {

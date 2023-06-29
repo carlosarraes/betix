@@ -1,6 +1,6 @@
 import express from 'express'
 import { User } from '../controllers'
-import { currentUser, requireAuth, validateBody } from '../middleware'
+import { currentUser, requireAuth, validateBody } from '@betix/common'
 
 const router = express.Router()
 

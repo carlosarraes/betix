@@ -1,9 +1,8 @@
 import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
-import { BadRequest, type BodyType } from '../types'
 import { UserService } from '../services'
-import { createToken } from '../utils/token'
-import { Password } from '../utils/password'
+import { BadRequest, Password, createToken } from '@betix/common'
+import { BodyType } from '../types'
 
 class User {
   constructor(private userService = new UserService()) {}

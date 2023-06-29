@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import type { UserAttrs, UserDoc, UserModel } from '../types'
-import { Password } from '../utils/password'
+import { Password } from '@betix/common'
 
 const userSchema = new mongoose.Schema(
   {

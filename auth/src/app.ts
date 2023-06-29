@@ -2,8 +2,8 @@ import express from 'express'
 import 'express-async-errors'
 import morgan from 'morgan'
 import { userRouter } from './routes'
-import { errorHandler } from './middleware'
 import cookieSession from 'cookie-session'
+import { errorHandler } from '@betix/common'
 
 const app = express()
 
