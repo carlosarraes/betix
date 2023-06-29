@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@betix/common':
-    specifier: ^0.1.5
-    version: 0.1.5
+    specifier: ^0.1.6
+    version: 0.1.6
   '@types/cookie-session':
     specifier: ^2.0.44
     version: 2.0.44
@@ -1272,8 +1272,8 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
 
-  /@betix/common@0.1.5:
-    resolution: {integrity: sha512-UgFoZcOAsi0S1gH8O6JyXQhbU8MVvsz2dELd1xX1W4pZ/YdaLAqJWG8iDXWb7jT8EmFZXSo8UX/ajP8Knfe10g==}
+  /@betix/common@0.1.6:
+    resolution: {integrity: sha512-6jElChrDQK/JhPrSh9CTqhyxyVtCNIva4TyqpaRsKzcbQoF73raLtFY2sL2Y3qzh4NsMqliF25efHY8V0esVVA==}
     dependencies:
       '@types/cookie-session': 2.0.44
       '@types/express': 4.17.17

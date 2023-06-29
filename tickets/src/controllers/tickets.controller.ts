@@ -8,7 +8,7 @@ class Tickets {
   create = async (req: Request, res: Response) => {
     const { title, price } = req.body
 
-    const ticket = await this.ticketService.create(title, price, req.currentUser!.id!)
+    const ticket = await this.ticketService.create(title, price, req.currentUser!.id)
 
     res.status(StatusCodes.CREATED).send(ticket)
   }
@@ -17,7 +17,7 @@ class Tickets {
     const ticket = await this.ticketService.getTicketById(req.params.id)
 
     if (!ticket) {
-      res.status(StatusCodes.NOT_FOUND).send()
+      throw new Error('Ticket not found')
     }
 
     res.send(ticket)
