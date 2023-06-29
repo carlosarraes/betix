@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { TicketService } from '../services'
+import { NotFound } from '@betix/common'
 
 class Tickets {
   constructor(private ticketService = new TicketService()) {}
@@ -13,14 +14,24 @@ class Tickets {
     res.status(StatusCodes.CREATED).send(ticket)
   }
 
+  getTickets = async (_req: Request, res: Response) => {
+    const tickets = await this.ticketService.getTickets()
+
+    res.status(StatusCodes.OK).send(tickets)
+  }
+
   getTicketById = async (req: Request, res: Response) => {
     const ticket = await this.ticketService.getTicketById(req.params.id)
 
-    if (!ticket) {
-      throw new Error('Ticket not found')
-    }
+    res.status(StatusCodes.OK).send(ticket)
+  }
 
-    res.send(ticket)
+  update = async (req: Request, res: Response) => {
+    const { title, price } = req.body
+
+    const ticket = await this.ticketService.update(req.params.id, title, price, req.currentUser!.id)
+
+    res.status(StatusCodes.OK).send(ticket)
   }
 }
 
