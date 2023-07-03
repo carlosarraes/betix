@@ -1,11 +1,22 @@
 import { NotAuthorized, NotFound } from '@betix/common'
 import { Ticket } from '../models'
+import {
+  TicketCreatedPublisher,
+  TicketUpdatedPublisher,
+} from '../publishers/ticketCreatedPublisher'
+import { natsWrapper } from '../natsWrapper'
 
 class TicketService {
   create = async (title: string, price: number, userId: string) => {
     const ticket = Ticket.build({ title, price, userId })
 
     await ticket.save()
+    await new TicketCreatedPublisher(natsWrapper.client).publish({
+      id: ticket.id,
+      title: ticket.title,
+      price: ticket.price,
+      userId: ticket.userId,
+    })
 
     return ticket
   }
@@ -39,6 +50,12 @@ class TicketService {
 
     ticket.set({ title, price })
     await ticket.save()
+    await new TicketUpdatedPublisher(natsWrapper.client).publish({
+      id: ticket.id,
+      title: ticket.title,
+      price: ticket.price,
+      userId: ticket.userId,
+    })
 
     return ticket
   }

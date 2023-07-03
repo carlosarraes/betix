@@ -1,16 +1,16 @@
-import { Message, Stan } from 'node-nats-streaming'
-import { Subjects } from '../types/subjects.type'
+import { Message, Stan } from "node-nats-streaming";
+import { Subjects } from "../types/subjects.type";
 
 interface Event {
-  subject: Subjects
-  data: any
+  subject: Subjects;
+  data: any;
 }
 
-abstract class Listener<T extends Event> {
-  abstract subject: T['subject']
-  abstract queueGroupName: string
-  abstract onMessage(data: T['data'], msg: Message): void
-  protected ackWait = 5 * 1000
+export abstract class Listener<T extends Event> {
+  abstract subject: T["subject"];
+  abstract queueGroupName: string;
+  abstract onMessage(data: T["data"], msg: Message): void;
+  protected ackWait = 5 * 1000;
 
   constructor(private client: Stan) {}
 
@@ -19,29 +19,29 @@ abstract class Listener<T extends Event> {
       .subscriptionOptions()
       .setManualAckMode(true)
       .setAckWait(this.ackWait)
-      .setDurableName(this.queueGroupName)
+      .setDurableName(this.queueGroupName);
   }
 
   listen() {
     const subscription = this.client.subscribe(
       this.subject,
       this.queueGroupName,
-      this.subscriptionOptions(),
-    )
+      this.subscriptionOptions()
+    );
 
-    subscription.on('message', (msg: Message) => {
-      console.log(`Message received: ${this.subject} / ${this.queueGroupName}`)
+    subscription.on("message", (msg: Message) => {
+      console.log(`Message received: ${this.subject} / ${this.queueGroupName}`);
 
-      const parsedData = this.parseMessage(msg)
-      this.onMessage(parsedData, msg)
-    })
+      const parsedData = this.parseMessage(msg);
+      this.onMessage(parsedData, msg);
+    });
   }
 
   parseMessage(msg: Message) {
-    const data = msg.getData()
+    const data = msg.getData();
 
-    return typeof data === 'string' ? JSON.parse(data) : JSON.parse(data.toString('utf8'))
+    return typeof data === "string"
+      ? JSON.parse(data)
+      : JSON.parse(data.toString("utf8"));
   }
 }
-
-export default Listener

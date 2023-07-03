@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { TicketService } from '../services'
-import { NotFound } from '@betix/common'
 
 class Tickets {
   constructor(private ticketService = new TicketService()) {}
