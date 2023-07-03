@@ -1,7 +1,5 @@
+import { Listener, Subjects, TicketCreatedEvent } from '@betix/common'
 import { Message } from 'node-nats-streaming'
-import Listener from './listenerClass'
-import type { TicketCreatedEvent } from '../types/ticket.interface'
-import { Subjects } from '../types/subjects.type'
 
 export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
   readonly subject = Subjects.TicketCreated
