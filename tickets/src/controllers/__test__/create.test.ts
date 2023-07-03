@@ -2,6 +2,7 @@ import request from 'supertest'
 import { app } from '../../app'
 import { StatusCodes } from 'http-status-codes'
 import { Ticket } from '../../models'
+import { natsWrapper } from '../../natsWrapper'
 
 describe('POST /api/tickets', () => {
   it('has a route handler listening to /api/tickets for POST requests', async () => {
@@ -69,5 +70,15 @@ describe('POST /api/tickets', () => {
 
     tickets = await Ticket.find({})
     expect(tickets.length).toEqual(1)
+  })
+
+  it('publishes an event', async () => {
+    await request(app)
+      .post('/api/tickets')
+      .set('Cookie', global.signin())
+      .send({ title: 'Title', price: 10 })
+      .expect(StatusCodes.CREATED)
+
+    expect(natsWrapper.client.publish).toHaveBeenCalled()
   })
 })

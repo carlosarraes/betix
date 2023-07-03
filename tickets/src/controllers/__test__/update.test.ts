@@ -2,6 +2,7 @@ import request from 'supertest'
 import { app } from '../../app'
 import { StatusCodes } from 'http-status-codes'
 import mongoose from 'mongoose'
+import { natsWrapper } from '../../natsWrapper'
 
 describe('PUT /api/tickets/:id', () => {
   it('returns a 404 if the provided id does not exist', async () => {
@@ -96,5 +97,28 @@ describe('PUT /api/tickets/:id', () => {
 
     expect(ticketResponse.body.title).toEqual(newTitle)
     expect(ticketResponse.body.price).toEqual(newPrice)
+  })
+
+  it('publishes an event', async () => {
+    const cookie = global.signin()
+
+    const response = await request(app).post('/api/tickets').set('Cookie', cookie).send({
+      title: 'test',
+      price: 20,
+    })
+
+    const newTitle = 'new title'
+    const newPrice = 100
+
+    await request(app)
+      .put(`/api/tickets/${response.body.id}`)
+      .set('Cookie', cookie)
+      .send({
+        title: newTitle,
+        price: newPrice,
+      })
+      .expect(StatusCodes.OK)
+
+    expect(natsWrapper.client.publish).toHaveBeenCalled()
   })
 })
